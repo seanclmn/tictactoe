@@ -15,7 +15,6 @@ export function emptyBoard() {
   return Array(SIZE * SIZE).fill(null)
 }
 
-// Returns { player, line } for a winning board, otherwise null.
 export function findWinner(board) {
   for (const line of LINES) {
     const [a, b, c] = line
