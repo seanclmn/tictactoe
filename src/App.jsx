@@ -4,7 +4,6 @@ import { emptyBoard, findWinner, isDraw } from './game.js'
 
 function App() {
   const [squares, setSquares] = useState(emptyBoard)
-  const [xIsNext, setXIsNext] = useState(true)
 
   const winner = findWinner(squares)
   const draw = isDraw(squares)
@@ -13,20 +12,20 @@ function App() {
   function handlePlay(index) {
     if (gameOver || squares[index]) return
     const next = squares.slice()
-    next[index] = xIsNext ? 'X' : 'O'
+    next[index] = 'X'
+    const availableSquaresIndices = next.map((el, index) => el === null ? index : null).filter((el) => el)
+    const computerMoveIndex = availableSquaresIndices[Math.floor(Math.random() * availableSquaresIndices.length)]
+    next[computerMoveIndex] = 'O'
     setSquares(next)
-    setXIsNext(!xIsNext)
   }
 
   function reset() {
     setSquares(emptyBoard())
-    setXIsNext(true)
   }
 
   let status
   if (winner) status = `Player ${winner.player} wins!`
   else if (draw) status = "It's a draw."
-  else status = `Player ${xIsNext ? 'X' : 'O'}'s turn`
 
   return (
     <main className="flex min-h-svh flex-col items-center justify-center gap-5 bg-white px-4 py-8 text-center font-sans text-gray-900 dark:bg-gray-950 dark:text-gray-100">
